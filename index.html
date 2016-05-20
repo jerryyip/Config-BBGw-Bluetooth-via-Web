@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+	<html>
+	<head>
+	    <title>bluetooth Test</title>
+	    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+	    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+	    <script type="text/javascript" charset="utf-8">
+	        $(document).ready(function(){
+	            namespace = '/test'; // change to an empty string to use the global namespace
+	
+	            // the socket.io documentation recommends sending an explicit package upon connection
+	            // this is specially important when using the global namespace
+	            var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+	
+	            // event handler for server sent data
+	            // the data is displayed in the "Received" section of the page
+	            socket.on('my response', function(msg) {
+	                $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+	            });
+	
+	            // event handler for new connections
+	            socket.on('connect', function() {
+	                socket.emit('my event', {data: 'I\'m connected!'});
+
+                });
+	
+	            // handlers for the different forms in the page
+	            // these send data to the server in a variety of ways
+	            $('form#bb').submit(function(event) {
+	                socket.emit('bb event',{data:'1'})
+//, {data: $('#emit_data').val()});
+	                return false;
+	            });
+	            $('form#ctl').submit(function(event) {
+	                socket.emit('ctl event',{data:'1'})
+	                return false;
+	            });
+	            $('form#scanon').submit(function(event) {
+	                socket.emit('scanon event',{data:'1'})
+	                return false;
+	            });
+	            $('form#scanoff').submit(function(event) {
+	                socket.emit('scanoff event',{data:'1'})
+	                return false;
+	            });
+	            $('form#pair').submit(function(event) {
+	                socket.emit('pair event', {data: $('#address').val()});
+	                return false;
+	            });
+	            $('form#trust').submit(function(event) {
+	                socket.emit('trust event', {data: $('#address').val()});
+	                return false;
+	            });
+	            $('form#connect').submit(function(event) {
+	             socket.emit('connect event', {data: $('#address').val()});
+	                return false;
+	            });
+	            $('form#quit').submit(function(event) {
+	                socket.emit('quit event',{data:'1'})
+	                return false;
+	            });
+
+/*	            $('form#scanon').submit(function(event) {
+	                socket.emit('join', {room: $('#join_room').val()});
+	                return false;
+	            });
+	            $('form#leave').submit(function(event) {
+	                socket.emit('leave', {room: $('#leave_room').val()});
+	                return false;
+	            });
+	            $('form#send_room').submit(function(event) {
+	                socket.emit('my room event', {room: $('#room_name').val(), data: $('#room_data').val()});
+	                return false;
+           });
+	            $('form#close').submit(function(event) {
+	                socket.emit('close room', {room: $('#close_room').val()});
+	                return false;
+	            });
+	            $('form#disconnect').submit(function(event) {
+	                socket.emit('disconnect request');
+	                return false;
+	            });
+*/
+	        });
+	    </script>
+	</head>
+	<body>
+	    <h1>Bluetooth Command</h1>
+	    <h2>Send:</h2>
+<!--	    <form id="bb" method="POST" action='#'>
+	    <input type="submit" value="bb-wl18xx-bluetooth">
+	    </form>
+	    <form id="ctl" method="POST" action='#'>
+	    <input type="submit" value="bluetoothctl">
+	    </form>
+
+	    <form id="scanon" method="POST" action='#'>
+	    <input type="submit" value="scan on">
+	    </form>
+
+	    <form id="scanoff" method="POST" action='#'>
+	    <input type="submit" value="scan off">
+	    </form>
+-->
+
+	    <form id="pair" method="POST" action="#">
+	        <input type="text" name="address" id="address" placeholder="Bluetooth address">
+	        <input type="submit" value="pair">
+	    </form>  
+<!--	    <form id="trust" method="POST" action="#">
+	        <input type="text" name="address" id="address" placeholder="Bluetooth address">
+	        <input type="submit" value="trust">
+	    </form>   
+	    <form id="connect" method="POST" action="#">
+	        <input type="text" name="address" id="address" placeholder="Bluetooth address">
+	        <input type="submit" value="connect">
+	    </form>  
+		 <form id="quit" method="POST" action="#">
+	        <input type="submit" value="quit">
+	    </form>
+-->	    <h2>Receive:</h2>
+	    <div id="log"></div>
+	</body>
+	</html>
