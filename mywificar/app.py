@@ -59,4 +59,4 @@ def minus_message():
 
         
 if __name__ == '__main__':
-    socketio.run(app,host='192.168.7.48', debug=False)
+    socketio.run(app,host='192.168.6.29', debug=False)
