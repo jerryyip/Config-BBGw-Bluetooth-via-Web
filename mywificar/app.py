@@ -3,6 +3,7 @@
 
 import time
 from led1 import myledon, myledoff
+from mywificar import goFront, goBack, stop
 from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
